@@ -39,7 +39,14 @@ docker pull ibuildthecloud/helloworld:latest
 
 docker run -i -d busybox:1
 
-PACKAGES=". $(find -name '*.go' | xargs -I{} dirname {} |  cut -f2 -d/ | sort -u | grep -Ev '(^\.$|.git|.trash-cache|vendor|bin)' | sed -e 's!^!./!' -e 's!$!/...!')"
+PACKAGES=". $(
+  find -name '*.go' | \
+    xargs -I{} dirname {} | \
+    cut -f2 -d/ | \
+    sort -u | \
+    grep -Ev '(^\.$|.git|.trash-cache|vendor|bin)' | \
+    sed -e 's!^!./!' -e 's!$!/...!'
+)"
 
 [ "${ARCH}" == "amd64" ] && RACE=-race
 go test ${RACE} -cover -timeout=3m -tags=test ${PACKAGES}
