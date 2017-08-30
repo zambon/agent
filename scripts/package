@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+ARCH=${ARCH:?"ARCH not set"}
+
 source $(dirname $0)/version
 
 cd $(dirname $0)/..
@@ -12,17 +14,21 @@ rm -rf dist/artifacts
 mkdir -p build/${CONTENT}/bin
 mkdir -p dist/artifacts
 
-if [ ! -e bin/agent ]; then
+if [ ! -e bin/agent-${ARCH} ]; then
     ./scripts/build
 fi
 
 cp -rf apply.sh build/${CONTENT}
-cp -rf bin/agent build/${CONTENT}/bin
+cp -rf bin/agent-${ARCH} build/${CONTENT}/bin/agent
 
 cd build
 
 sha1sum -b $(find ${CONTENT} -type f) > ${CONTENT}/SHA1SUMS
 sha1sum ${CONTENT}/SHA1SUMS > ${CONTENT}/SHA1SUMSSUM
+sha256sum -b $(find ${CONTENT} -type f) > ${CONTENT}/SHA256SUMS
+sha256sum ${CONTENT}/SHA256SUMS > ${CONTENT}/SHA256SUMSSUM
 
-tar czf ../dist/artifacts/go-agent.tar.gz ${CONTENT}
-echo Created ../dist/artifacts/go-agent.tar.gz
+ARTIFACT_PATH="../dist/artifacts/go-agent-${ARCH}.tar.gz"
+
+tar czf ${ARTIFACT_PATH} ${CONTENT}
+echo Created ${ARTIFACT_PATH}

@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
 
+ARCH=${ARCH:?"ARCH not set"}
+
 source $(dirname $0)/version
 
 cd $(dirname $0)/..
 
 mkdir -p bin
-CGO_ENABLED=0 go build -ldflags "-X main.VERSION=$VERSION -linkmode external -extldflags -static -s" -o bin/agent
+CGO_ENABLED=0 go build -ldflags "-X main.VERSION=$VERSION -linkmode external -extldflags -static -s" -o bin/agent-${ARCH}
