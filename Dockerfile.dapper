@@ -26,16 +26,8 @@ RUN curl -fsSL https://storage.googleapis.com/golang/go1.7.4.linux-${!GOLANG_ARC
 RUN go get github.com/rancher/trash && \
     go get github.com/golang/lint/golint
 
-# Versions: "1.10.3"; "1.12.1"; "1.13.1"
-ENV DOCKER_URL_amd64=http://us.archive.ubuntu.com/ubuntu/pool/universe/d/docker.io/docker.io_${DOCKER_VERSION}-0ubuntu6_amd64.deb \
-    DOCKER_URL_arm=http://ports.ubuntu.com/ubuntu-ports/pool/universe/d/docker.io/docker.io_${DOCKER_VERSION}-0ubuntu6_armhf.deb \
-    DOCKER_URL_ppc64le=http://ports.ubuntu.com/ubuntu-ports/pool/universe/d/docker.io/docker.io_${DOCKER_VERSION}-0ubuntu6_ppc64el.deb \
-    DOCKER_URL=DOCKER_URL_${ARCH}
-
-RUN curl -fsSLo /tmp/docker.deb ${!DOCKER_URL} && \
-    dpkg -x /tmp/docker.deb /tmp/docker && \
-    cp /tmp/docker/usr/bin/docker* /usr/bin && \
-    rm -rf /tmp/docker*
+RUN curl -sfL https://cocl.us/docker-${DOCKER_VERSION}-${ARCH}.tgz | \
+      tar -xzf - -C /usr/bin --strip-components=1
 
 ENV PATH /go/bin:$PATH
 ENV DAPPER_SOURCE /go/src/github.com/rancher/agent
