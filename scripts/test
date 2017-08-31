@@ -36,6 +36,10 @@ fi
 echo Running tests
 
 docker pull zambon/hello-world-multi:latest
+docker tag zambon/hello-world-multi:latest ibuildthecloud/helloworld:latest
+
+dockker pull zambon/busybox-multi:1
+dockker tag zambon/busybox-multi:1 busybox:1
 
 docker run -i -d zambon/busybox-multi:1
 
