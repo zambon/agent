@@ -35,7 +35,7 @@ fi
 
 echo Running tests
 
-docker pull zambon/helloworld-multi:latest
+docker pull zambon/hello-world-multi:latest
 
 docker run -i -d zambon/busybox-multi:1
 
