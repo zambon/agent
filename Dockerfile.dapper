@@ -27,7 +27,7 @@ RUN go get github.com/rancher/trash && \
     go get github.com/golang/lint/golint
 
 RUN curl -sfL https://cocl.us/docker-${DOCKER_VERSION}-${ARCH}.tgz | \
-      tar -xzf - -C /usr/bin --strip-components=1
+      tar -xzf - -C /usr/bin --transform='s/.*\///'
 
 ENV PATH /go/bin:$PATH
 ENV DAPPER_SOURCE /go/src/github.com/rancher/agent
