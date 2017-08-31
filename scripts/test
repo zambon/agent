@@ -35,9 +35,9 @@ fi
 
 echo Running tests
 
-docker pull ibuildthecloud/helloworld:latest
+docker pull zambon/helloworld-multi:latest
 
-docker run -i -d busybox:1
+docker run -i -d zambon/busybox-multi:1
 
 PACKAGES=". $(
   find -name '*.go' | \
